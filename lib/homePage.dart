@@ -37,9 +37,11 @@ class HomePageState extends State<MyHomePage> {
 
   void divide() {
     setState(() {
-      num1 = int.parse(t1.text);
-      num2 = int.parse(t2.text);
-      sum = num1 ~/ num2;
+      try {
+        num1 = int.parse(t1.text);
+        num2 = int.parse(t2.text);
+        sum = num1 ~/ num2;
+      } on IntegerDivisionByZeroException {}
     });
   }
 
@@ -90,27 +92,23 @@ class HomePageState extends State<MyHomePage> {
                   child: Text("+"),
                   onPressed: add,
                   color: Colors.greenAccent,
+                  minWidth: 50.0,
                 ),
                 MaterialButton(
                     child: Text("-"),
                     onPressed: sub,
-                    color: Colors.greenAccent),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 10.0),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
+                    color: Colors.greenAccent,
+                    minWidth: 50.0),
                 MaterialButton(
                     child: Text("*"),
                     onPressed: multiply,
-                    color: Colors.greenAccent),
+                    color: Colors.greenAccent,
+                    minWidth: 50.0),
                 MaterialButton(
                     child: Text("/"),
                     onPressed: divide,
-                    color: Colors.greenAccent)
+                    color: Colors.greenAccent,
+                    minWidth: 50.0)
               ],
             ),
             Padding(padding: const EdgeInsets.only(top: 10.0)),
