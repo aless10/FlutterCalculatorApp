@@ -5,6 +5,35 @@ class MyHomePage extends StatefulWidget {
   State createState() => HomePageState();
 }
 
+showAlertDialog(BuildContext context) {
+
+  // set up the button
+  Widget okButton = FlatButton(
+    child: Text("OK"),
+    onPressed: () {
+      Navigator.of(context, rootNavigator: true).pop('dialog');
+    },
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("Hey you!"),
+    content: Text("You cannot divide by 0. Please use another number as denominator."),
+    actions: [
+      okButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
+
+
 class HomePageState extends State<MyHomePage> {
   var num1 = 0, num2 = 0, sum = 0;
 
@@ -35,13 +64,15 @@ class HomePageState extends State<MyHomePage> {
     });
   }
 
-  void divide() {
+  void divide(BuildContext context) {
     setState(() {
       try {
         num1 = int.parse(t1.text);
         num2 = int.parse(t2.text);
         sum = num1 ~/ num2;
-      } on IntegerDivisionByZeroException {}
+      } on IntegerDivisionByZeroException {
+        showAlertDialog(context);
+      }
     });
   }
 
@@ -106,7 +137,7 @@ class HomePageState extends State<MyHomePage> {
                     minWidth: 50.0),
                 MaterialButton(
                     child: Text("/"),
-                    onPressed: divide,
+                    onPressed: () {divide(context);},
                     color: Colors.greenAccent,
                     minWidth: 50.0)
               ],
